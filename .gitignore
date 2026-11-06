@@ -1,0 +1,22 @@
+node_modules/
+dist/
+coverage/
+*.log
+.env
+.env.*
+!.env.example
+
+# Local editor and OS metadata
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Local backups and editor swap files
+*.bak
+*.bak-*
+*.swp
+*.swo
+
+# This screenshot is not safe to publish; replace it with a synthetic demo first.
+card-demo.png

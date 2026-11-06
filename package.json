@@ -1,0 +1,45 @@
+{
+  "name": "compact-region",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Partial compaction for DSH: condense a chosen region of the conversation into one editable checkpoint.",
+  "scripts": {
+    "test": "node test/stats.test.mjs && node test/archive.test.mjs && node test/deep-nest.test.mjs"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": {
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "default": "./lib/client.js"
+    },
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-client-connection",
+        "@deepseek-ai/dsh-client-ui-conversation"
+      ],
+      "platform": "web"
+    }
+  },
+  "files": [
+    "lib/index.js",
+    "lib/stats.js",
+    "lib/client.js",
+    "cordis.patch.yml",
+    "locale/en.json",
+    "locale/zh.json",
+    "icon.svg",
+    "package.json"
+  ],
+  "license": "MIT"
+}

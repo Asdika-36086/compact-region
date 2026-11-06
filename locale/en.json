@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Partial Compaction",
+    "description": "Condense a chosen region of the conversation into one editable checkpoint, leaving the rest verbatim."
+  }
+}

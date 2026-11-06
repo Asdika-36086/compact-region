@@ -1,0 +1,6 @@
+# Mounts the Host half; package.json declares the Web Client entry and its
+# required client-side injections.
+- insert:
+    - id: compact-region
+      name: compact-region
+      config: {}
