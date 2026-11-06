@@ -1,0 +1,68 @@
+name: Bug report
+description: 报告一个可以复现的问题
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢反馈。提交前请先搜索是否已有相同 Issue。
+        请勿粘贴 API Key、密码或私人对话内容。
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: 问题描述
+      description: 发生了什么？
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: 复现步骤
+      placeholder: |
+        1. 打开对话
+        2. 点击「⤵ 压缩」
+        3. ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: 预期行为
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: 实际行为
+    validations:
+      required: true
+  - type: input
+    id: dsh-version
+    attributes:
+      label: DSH 版本
+      placeholder: 例如 0.2.1-rc.3
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: 操作系统
+      placeholder: 例如 Windows 11 / macOS 15
+    validations:
+      required: true
+  - type: input
+    id: plugin-version
+    attributes:
+      label: compact-region 版本
+      placeholder: 例如 0.1.0
+    validations:
+      required: false
+  - type: textarea
+    id: logs
+    attributes:
+      label: 日志或截图
+      description: 相关日志、报错或截图。请先删除隐私信息。
+      render: text
+    validations:
+      required: false

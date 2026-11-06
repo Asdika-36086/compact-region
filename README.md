@@ -1,5 +1,7 @@
 # compact-region（局部压缩）
 
+[![tests](https://github.com/Asdika-36086/compact-region/actions/workflows/test.yml/badge.svg)](https://github.com/Asdika-36086/compact-region/actions/workflows/test.yml)
+
 在 DSH 对话中选择一段连续的显轮次，将其总结为检查点卡片。应用后，卡片保留在对话上下文中，被替换的原文仍保存在会话日志里，但不再作为普通对话内容显示或继续占用模型上下文。
 
 ## 使用方法
@@ -26,7 +28,10 @@
 
 本插件以 DSH **组合包**（bundle）方式分发：`package.json` 里的 `dsh.bundle.patch` 指向 `cordis.patch.yml`，`dsh.client` 声明 Web 客户端入口。因此需要用 DSH 的插件管理器安装，而不是手动复制文件。
 
-要求：DSH 版本自带插件管理器（侧边栏有「插件」页），并支持 Web Client 插件。
+要求：
+
+- DSH 自带插件管理器（侧边栏有「插件」页），并支持 Web Client 插件；
+- 本插件在 DSH 0.2.x 上开发与测试，其他版本未验证。若安装后 DSH 报版本不兼容，请附上 DSH 版本提 Issue。
 
 ### 方式一：在 Web 界面安装（推荐）
 
@@ -41,11 +46,19 @@
 
 ### 方式二：命令行
 
-在支持 `dsh` 命令的安装中：
+不同 DSH 版本的命令可能不同，先确认你的 CLI 支持插件安装：
+
+```sh
+dsh plugin --help
+```
+
+若其中列出了 `install`，再执行：
 
 ```sh
 dsh plugin install https://github.com/Asdika-36086/compact-region
 ```
+
+否则请使用上面的 Web 界面方式。
 
 ### 验证是否装上
 
