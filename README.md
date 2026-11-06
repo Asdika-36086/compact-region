@@ -24,7 +24,32 @@
 
 ## 安装与启用
 
-将 `compact-region` 插件目录安装到 DSH 可加载的插件位置，并在对应配置中启用。插件包含 Host 与 Web Client 两部分；如果只安装或启用其中一部分，功能可能不完整。具体安装入口取决于 DSH 的部署方式。
+本插件以 DSH **组合包**（bundle）方式分发：`package.json` 里的 `dsh.bundle.patch` 指向 `cordis.patch.yml`，`dsh.client` 声明 Web 客户端入口。因此需要用 DSH 的插件管理器安装，而不是手动复制文件。
+
+要求：DSH 版本自带插件管理器（侧边栏有「插件」页），并支持 Web Client 插件。
+
+### 方式一：在 Web 界面安装（推荐）
+
+1. 打开 DSH，点击左侧边栏的 **插件**。
+2. 在安装输入框里填入下面任一地址：
+   - GitHub 仓库：`https://github.com/Asdika-36086/compact-region`
+   - 本地目录：把仓库克隆或下载到本机后，填该目录的绝对路径，例如 `D:\plugins\compact-region`
+3. 确认安装，等待依赖安装完成。
+4. 在插件列表里确认 `compact-region` 已启用。
+
+安装完成后，若界面没有立即出现压缩按钮，重启一次 DSH。
+
+### 方式二：命令行
+
+在支持 `dsh` 命令的安装中：
+
+```sh
+dsh plugin install https://github.com/Asdika-36086/compact-region
+```
+
+### 验证是否装上
+
+打开任意对话，把鼠标移到某个普通轮次上，轮次旁边应出现 **⤵ 压缩** 按钮。没有出现时，先检查「插件」页里它是否处于启用状态。
 
 ## 数据与注意事项
 
