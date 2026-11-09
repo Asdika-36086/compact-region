@@ -1,121 +1,121 @@
-# compact-region
+# compact-region（局部压缩）
+
+[English](README.en.md) | 中文
 
 [![tests](https://github.com/Asdika-36086/compact-region/actions/workflows/test.yml/badge.svg)](https://github.com/Asdika-36086/compact-region/actions/workflows/test.yml)
 
-English | [中文](README.zh.md)
+在 DSH 对话中选择一段连续的显轮次，将其总结为检查点卡片。应用后，卡片保留在对话上下文中，被替换的原文仍保存在会话日志里，但不再作为普通对话内容显示或继续占用模型上下文。
 
-Pick a run of consecutive visible turns in a DSH conversation and condense them into one checkpoint card. Once applied, the card stays in the context, and the turns it replaced stay in the session log but no longer render as ordinary conversation or occupy the model's context.
+## 使用方法
 
-## How to use
+1. 在 DSH 中打开要整理的对话，并确保会话已选择可用模型。
+2. 在某个普通轮次旁边点击 **⤵ 压缩**，从该轮开始进入选择模式。
+3. 点击对话中的轮次或压缩卡片来选择范围。选择必须连续；点击范围边缘之外的轮次会把中间轮次一并选中。点击已选项可取消选择。
+4. 点击选择面板上的 **压缩**。插件会用当前会话模型生成摘要，并显示可编辑的预览。
+5. 检查并修改摘要，然后选择：
+   - **应用**：用检查点卡片替换选定范围；
+   - **重新生成**：重新请求摘要；
+   - **取消**：放弃本次操作，不修改会话。
 
-1. Open the conversation in DSH and make sure the session has a model selected.
-2. Hover a normal turn and click **⤵ Compress** next to it to enter selection mode starting from that turn.
-3. Click turns or checkpoint cards to choose the range. The range must be contiguous: clicking a turn beyond an edge includes everything in between. Click a chosen item again to drop it.
-4. Click **Compress** in the panel. The plugin asks the session's model for a summary and shows an editable preview.
-5. Review and edit the summary, then:
-   - **Apply**: replace the chosen range with the checkpoint card;
-   - **Regenerate**: ask for the summary again;
-   - **Cancel**: discard this run and leave the conversation untouched.
+选择模式中按 `Esc` 或点击 **取消**可退出。压缩完成后，卡片可以展开查看摘要；点击 **查看对话记录** 可在右侧面板中浏览被替换的原始内容。
 
-Press `Esc` or click **Cancel** to leave selection mode. After applying, expand the card to read the summary; **View the conversation log** browses the replaced originals in the right-hand panel.
+## 选择规则
 
-## Selection rules
+- 只能选择当前对话中连续的显轮次，包括普通轮次和检查点卡片。
+- 可以只选一个普通轮次；不能只选一个检查点卡片。若要再次压缩检查点，请把它与相邻轮次一起选中。
+- 当前仍在运行的轮次不能被压缩；请等待它结束后再操作。
+- 选择范围和摘要都基于当前对话上下文。应用前请核对摘要，尤其是重要事实、文件路径、命令和待办事项。
 
-- Only consecutive visible turns of the current conversation can be selected, including both ordinary turns and checkpoint cards.
-- A single ordinary turn is a valid selection; a single checkpoint card is not. To compress a checkpoint again, select it together with a neighbouring turn.
-- A turn that is still running cannot be compressed; wait for it to finish.
-- The range and the summary both follow the current context. Review the summary before applying, especially facts, file paths, commands and open tasks.
+## 安装与启用
 
-## Install and enable
+本插件以 DSH **组合包**（bundle）方式分发：`package.json` 里的 `dsh.bundle.patch` 指向 `cordis.patch.yml`，`dsh.client` 声明 Web 客户端入口。因此需要用 DSH 的插件管理器安装，而不是手动复制文件。
 
-This plugin ships as a DSH **bundle**: `dsh.bundle.patch` in `package.json` points at `cordis.patch.yml`, and `dsh.client` declares the Web client entry. Install it through DSH's plugin manager rather than copying files by hand.
+要求：
 
-Requirements:
+- DSH 自带插件管理器（侧边栏有「插件」页），并支持 Web Client 插件；
+- 本插件在 DSH 0.2.x 上开发与测试，其他版本未验证。若安装后 DSH 报版本不兼容，请附上 DSH 版本提 Issue。
 
-- A DSH build that includes the plugin manager (the **Plugins** page in the sidebar) and supports Web client plugins;
-- Developed and tested on DSH 0.2.x. Other versions are unverified — if install reports an incompatible version, please open an issue with your DSH version.
+### 方式一：在 Web 界面安装（推荐）
 
-### Option 1: install from the Web UI (recommended)
+1. 打开 DSH，点击左侧边栏的 **插件**。
+2. 在安装输入框里填入下面任一地址：
+   - GitHub 仓库：`https://github.com/Asdika-36086/compact-region`
+   - 本地目录：把仓库克隆或下载到本机后，填该目录的绝对路径，例如 `D:\plugins\compact-region`
+3. 确认安装，等待依赖安装完成。
+4. 在插件列表里确认 `compact-region` 已启用。
 
-1. Open DSH and click **Plugins** in the left sidebar.
-2. Enter either address in the install box:
-   - the GitHub repository: `https://github.com/Asdika-36086/compact-region`
-   - a local directory: clone or download the repository, then enter its absolute path, e.g. `D:\plugins\compact-region`
-3. Confirm and wait for the dependency install to finish.
-4. Check that `compact-region` is enabled in the plugin list.
+安装完成后，若界面没有立即出现压缩按钮，重启一次 DSH。
 
-If the compress button does not appear immediately, restart DSH once.
+### 方式二：命令行
 
-### Option 2: command line
-
-Commands differ between DSH versions, so check your CLI first:
+不同 DSH 版本的命令可能不同，先确认你的 CLI 支持插件安装：
 
 ```sh
 dsh plugin --help
 ```
 
-If it lists `install`, run:
+若其中列出了 `install`，再执行：
 
 ```sh
 dsh plugin install https://github.com/Asdika-36086/compact-region
 ```
 
-Otherwise use the Web UI above.
+否则请使用上面的 Web 界面方式。
 
-### Check that it loaded
+### 验证是否装上
 
-Open any conversation and hover a normal turn; a **⤵ Compress** button should appear next to it. If it does not, first check whether the plugin is enabled on the Plugins page.
+打开任意对话，把鼠标移到某个普通轮次上，轮次旁边应出现 **⤵ 压缩** 按钮。没有出现时，先检查「插件」页里它是否处于启用状态。
 
-## Language
+## 语言
 
-Every string the plugin shows and the instruction it sends to the model come from a language pack. Both are replaceable, and you switch packs on the **compact-region** card under Plugins. Two ship: English and 中文.
+插件显示的每一处文字、以及发给模型的指令，都来自语言包。两者都可替换，在「插件 → compact-region」的卡片上切换。随插件发布的有中文和 English 两种。
 
-To add one, put a JSON file in `<DSH home>/compact-region/langs/`. The file name without `.json` is the id shown in the picker; a file whose id matches a shipped pack overrides it. The card rescans the folder each time it opens, so no restart is needed.
+想加一种，把一个 JSON 文件放进 `<DSH 主目录>/compact-region/langs/`。文件名去掉 `.json` 就是下拉里显示的 id；和内置包同名的文件会覆盖内置的那份。卡片每次打开都会重扫目录，不用重启。
 
 ```json
 {
   "schema": 1,
-  "name": "shown in the picker",
+  "name": "下拉里显示的名字",
   "prompt": {
-    "template": "the instruction sent to the model; {start} is the first 128 characters of the span"
+    "template": "发给模型的指令；{start} 是区间开头的 128 个字"
   },
   "ui": {
-    "compress": "text of the button",
-    "cancel": "text of the cancel button"
+    "compress": "按钮上的字",
+    "cancel": "取消按钮上的字"
   }
 }
 ```
 
-- Both sections may be partial: missing keys fall back to English one at a time, so a half-finished pack is still usable.
-- The pack decides which language the summary is written in. Nothing else says it, so state it in the template.
-- The full field list, with every UI string, is [lib/langs/en.json](lib/langs/en.json). Newlines inside the template are `
-`.
-- The settings card's own row (its title and the Reset button) is not part of a pack: it follows the DSH interface language, so someone running DSH in English can always find the setting.
+- 两段都可以只写一部分，缺的键逐条回落到英文，所以翻到一半也能用。
+- 摘要用哪种语言写，由包里的模板决定，没有别的地方规定它，记得在模板里写清楚。
+- 语言包会先校验。字段不认识、`schema` 不是 `1`、缺 `prompt.template`、或 `ui` 里某项不是字符串，都会在下拉框里标成不可用并写明原因，也不会被合并——旧格式的文件就是靠这个暴露出来的，而不是悄悄不生效。
+- 完整字段（含全部界面文案）见 [lib/langs/en.json](lib/langs/en.json)，模板里的换行写成 `\n`。
+- 设置卡片自己那一行（标题和重置按钮）不属于语言包，它跟着 DSH 的界面语言走，所以界面是英文的人总能找到这个设置项。
 
-## Data and caveats
+## 数据与注意事项
 
-- Applying a checkpoint never deletes events from the session log. It appends a replacement checkpoint and keeps the chosen span out of later model context.
-- To generate a summary the plugin sends the visible conversation up to the end of the chosen range to the model the session is using, with the summary instruction appended. Judge that against the privacy and data policy of the model service you use.
-- The replaced originals remain available through the card's log entry.
-- The hide layer works through client-side DOM styling, which can affect scroll height and paging. If a card's position or the scrolling looks wrong, reopen the conversation to check.
-- Inactive older sessions can still be read for turns and archives; generating a summary and applying a checkpoint require a live session.
+- 应用检查点不会从会话日志中删除原始事件；它会追加一条替换检查点，并让被选区间不再进入后续模型上下文。
+- 生成摘要时，插件会把截至所选范围结束位置的可见对话上下文发送给当前会话使用的模型，末尾附上摘要指令。请按你使用模型服务的隐私与数据政策评估对话内容。
+- 被替换的原文可通过卡片的存档入口查看。
+- 当前隐藏层通过客户端 DOM 样式隐藏内容，可能影响滚动高度及分页定位；如果卡片位置或滚动表现异常，可重新打开对话检查。
+- 未激活的旧会话可读取轮次信息和存档；生成摘要与应用检查点要求会话处于激活状态。
 
-## Known limitations
+## 已知限制
 
-- Selection works in whole visible turns / contiguous surface spans; there is no arbitrary message-level cutting.
-- Hiding depends on the client render layer and does not alter the durable log itself.
-- Summaries are model-generated and cannot be guaranteed complete or accurate. Review before applying, and edit or regenerate when needed.
+- 插件以完整显轮次/连续 surface 区间为选择单位，不提供任意消息级别的切割。
+- 隐藏内容依赖客户端渲染层，不改变持久日志本身。
+- 摘要由模型生成，不能保证完整或准确。应用前请人工审阅；需要时可编辑或重新生成。
 
-## Development and testing
+## 开发与测试
 
-You need Node.js (ES modules; no third-party test dependencies). From the plugin directory:
+需要安装 Node.js（支持 ES Modules；无需安装第三方测试依赖）。在插件目录运行：
 
 ```sh
 npm test
 ```
 
-The tests use Node's built-in `node:assert` and synthetic session events: they never start DSH, call a model, or touch a real session. They cover turn and checkpoint statistics, archive data, and nested archives. Host/client integration and UI changes still need manual verification in an isolated DSH session. Never put real conversations, credentials or API keys into test fixtures.
+测试使用 Node 内置的 `node:assert` 和合成会话事件，不会启动 DSH、调用模型或访问真实会话。测试覆盖轮次/检查点统计、存档数据及多层嵌套存档。Host/Client 集成或界面改动还需在隔离的 DSH 会话中手动验证；不要将真实对话、凭据或 API Key 放入测试夹具。
 
-## License
+## 许可证
 
-MIT, see [LICENSE](LICENSE).
+MIT，见 [LICENSE](LICENSE)。
