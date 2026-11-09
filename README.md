@@ -85,9 +85,7 @@ A pack only needs the parts you want to change; everything else follows English:
   "schema": 1,
   "name": "日本語",
   "prompt": {
-    "rangeFrom": "要約する範囲：ユーザーメッセージ「{start}」から「{end}」まで。",
-    "intro": "あとで続きを書くための要約を、次の構成で書いてください：",
-    "heading": "## この区間の要約"
+    "template": "要約する範囲：ユーザーメッセージ「{start}」から「{end}」まで。\n\n次の構成で日本語の要約を書いてください：\n\n## この区間の要約\n- 目的：\n- 成果物：\n- 現在の状態："
   },
   "ui": {
     "compress": "圧縮",
@@ -97,11 +95,13 @@ A pack only needs the parts you want to change; everything else follows English:
 }
 ```
 
-Two rules:
+Three rules:
 
-- **`prompt` is the instruction sent to the model; `ui` is the text on screen.** Either may be partial: missing fields fall back to English one by one, so a half-finished translation is still usable.
-- **The pack decides which language the summary is written in.** Each one names its own language in `prompt.requirements`, so summarizing a Chinese conversation with the English pack still produces an English summary. Say the language explicitly there if you want it to differ from the conversation.
-- `{start}`, `{end}`, `{n}`, `{from}`, `{to}`, `{dir}` and `{message}` are placeholders — keep them verbatim.
+- **`prompt.template` is one free-form block**, sent to the model verbatim after the conversation. Lay it out however you like — headings, bullets, order, length. Newlines are `\n` inside the JSON string.
+- **`ui` is one string per place on screen.** Either section may be partial: missing keys fall back to English one by one, so a half-finished translation is still usable.
+- **The pack decides which language the summary is written in.** Nothing else says it, so state it in the template — e.g. “Write the summary in English” or “日本語で書いてください”.
+
+Placeholders: `{start}` and `{end}` in the template are the first and last user messages of the chosen span (truncated to 160 characters), and `anchorStart` / `anchorEnd` supply the wording used when the span has no real user message.
 
 The full field list is in [lib/langs/en.json](lib/langs/en.json). If you finish a translation and want to share it, open a PR that adds it to `lib/langs/`.
 

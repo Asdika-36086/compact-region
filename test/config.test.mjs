@@ -72,10 +72,10 @@ try {
 
   // 只写了一半语言的包：缺的字段从内置英文补上，不是整包作废。
   {
-    await writeFile(join(langs, '半成品.json'), '{"schema":1,"prompt":{"intro":"只用我自己的开场白"}}', 'utf8')
+    await writeFile(join(langs, '半成品.json'), '{"schema":1,"prompt":{"template":"只用我自己的开场白 {start} {end}"}}', 'utf8')
     const pack = await resolvePack('半成品')
-    assert.equal(pack.prompt.intro, '只用我自己的开场白')
-    assert.equal(pack.prompt.heading, '## Summary of this stretch')
+    assert.equal(pack.prompt.template, '只用我自己的开场白 {start} {end}')
+    assert.equal(pack.prompt.anchorStart, '(start of the span)')
     assert.equal(pack.ui.compress, 'Compress')
     console.log('ok   半成品语言包：自己写的覆盖英文，其余照旧')
   }
@@ -105,7 +105,9 @@ try {
   const zh = JSON.parse(await readFile(new URL('../lib/langs/zh.json', import.meta.url), 'utf8'))
   assert.deepEqual(Object.keys(zh.ui).sort(), Object.keys(en.ui).sort())
   assert.deepEqual(Object.keys(zh.prompt).sort(), Object.keys(en.prompt).sort())
-  assert.equal(zh.prompt.requirements.length, en.prompt.requirements.length)
+  assert.equal(typeof zh.prompt.template, 'string')
+  assert.ok(zh.prompt.template.includes('{start}'))
+  assert.ok(en.prompt.template.includes('{end}'))
 
   const client = await readFile(new URL('../lib/client.js', import.meta.url), 'utf8')
   const marker = 'var FALLBACK_UI = {'

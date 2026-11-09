@@ -2,24 +2,9 @@
   "schema": 1,
   "name": "English",
   "prompt": {
-    "rangeFrom": "The span to summarize: from the user message \"{start}\" to the user message \"{end}\".",
-    "rangeBackground": "Everything before that span is background only, there to explain what this stretch was doing.",
     "anchorStart": "(start of the span)",
     "anchorEnd": "(end of the span)",
-    "intro": "Write one summary for later continuation, in the structure below:",
-    "heading": "## Summary of this stretch",
-    "goal": "- Goal: what this stretch of work is doing",
-    "artifacts": "- Artifacts: file paths, commands, config keys, quoted verbatim",
-    "attempts": "- Attempts and conclusions: each attempt → feedback → why it was rejected → the final choice",
-    "status": "- Current state:",
-    "notes": "- New caveats:",
-    "requirementsHeading": "Requirements:",
-    "requirements": [
-      "Write the summary in English, even when the conversation is in another language.",
-      "Keep file paths, commands, error strings, identifiers, numbers and function signatures verbatim.",
-      "Record conclusions and reasons, not the process.",
-      "Write the record directly; do not mention these requirements."
-    ]
+    "template": "The span to summarize: from the user message \"{start}\" to the user message \"{end}\".\nEverything before that span is background only, there to explain what this stretch was doing.\n\nWrite one summary for later continuation, in the structure below:\n\n## Summary of this stretch\n- Goal: what this stretch of work is doing\n- Artifacts: file paths, commands, config keys, quoted verbatim\n- Attempts and conclusions: each attempt → feedback → why it was rejected → the final choice\n- Current state:\n- New caveats:\n\nRequirements:\n- Write the summary in English, even when the conversation is in another language.\n- Keep file paths, commands, error strings, identifiers, numbers and function signatures verbatim.\n- Record conclusions and reasons, not the process.\n- Write the record directly; do not mention these requirements."
   },
   "ui": {
     "loading": "Loading…",
