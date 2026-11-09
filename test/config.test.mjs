@@ -49,8 +49,8 @@ try {
   // 语言包目录：能解析的排在前面，坏文件沉底并带上 problem。
   {
     await mkdir(langs, { recursive: true })
-    await writeFile(join(langs, 'English.json'), '{"schema":1}', 'utf8')
-    await writeFile(join(langs, '中文.json'), '{"schema":1}', 'utf8')
+    await writeFile(join(langs, 'English.json'), '{"schema":1,"prompt":{"template":"head {start}"}}', 'utf8')
+    await writeFile(join(langs, '中文.json'), '{"schema":1,"prompt":{"template":"开头 {start}"}}', 'utf8')
     await writeFile(join(langs, '坏掉的.json'), '{ 坏掉', 'utf8')
     await writeFile(join(langs, '忽略我.txt'), 'not json', 'utf8')
 
@@ -68,6 +68,26 @@ try {
     assert.equal(overridden.source, 'user')
     assert.equal(packs.packs.find((pack) => pack.id === 'en').source, 'builtin')
     console.log('ok   语言包扫描：内置与用户目录合并，坏文件沉底，非 json 被忽略')
+  }
+
+// 旧格式与坏值的包：不合并、在列表里带原因，而不是悄悄回落成英文。
+  {
+    await writeFile(join(langs, '旧格式.json'), '{"schema":1,"prompt":{"intro":"旧的那套"}}', 'utf8')
+    await writeFile(join(langs, '坏值.json'), '{"schema":1,"ui":{"compress":123}}', 'utf8')
+    await writeFile(join(langs, '没有内容.json'), '{"schema":1}', 'utf8')
+
+    const packs = await listLanguagePacks()
+    const byId = new Map(packs.packs.map((pack) => [pack.id, pack]))
+    const old = byId.get('旧格式')
+    assert.ok(old.problem.includes('template') || old.problem.includes('不认识的字段'), '旧格式要报出来：' + old.problem)
+    assert.ok(byId.get('坏值').problem.includes('ui.compress'), '坏值要点名出问题的那一项')
+    assert.ok(byId.get('没有内容').problem.length > 0, '空包要报出来')
+
+    // 旧格式不参与合并：拿到的是内置英文模板，不是它那套碎片。
+    const merged = await resolvePack('旧格式')
+    assert.ok(merged.prompt.template.includes('{start}'))
+    assert.equal(merged.prompt.template.includes('旧的那套'), false)
+    console.log('ok   旧格式与坏值：列表里带原因，且不参与合并')
   }
 
   // 只写了一半语言的包：缺的字段从内置英文补上，不是整包作废。
