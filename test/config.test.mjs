@@ -72,9 +72,9 @@ try {
 
   // 只写了一半语言的包：缺的字段从内置英文补上，不是整包作废。
   {
-    await writeFile(join(langs, '半成品.json'), '{"schema":1,"prompt":{"template":"只用我自己的开场白 {start} {end}"}}', 'utf8')
+    await writeFile(join(langs, '半成品.json'), '{"schema":1,"prompt":{"template":"只用我自己的开场白 {start}"}}', 'utf8')
     const pack = await resolvePack('半成品')
-    assert.equal(pack.prompt.template, '只用我自己的开场白 {start} {end}')
+    assert.equal(pack.prompt.template, '只用我自己的开场白 {start}')
     assert.equal(pack.prompt.anchorStart, '(start of the span)')
     assert.equal(pack.ui.compress, 'Compress')
     console.log('ok   半成品语言包：自己写的覆盖英文，其余照旧')
@@ -106,8 +106,9 @@ try {
   assert.deepEqual(Object.keys(zh.ui).sort(), Object.keys(en.ui).sort())
   assert.deepEqual(Object.keys(zh.prompt).sort(), Object.keys(en.prompt).sort())
   assert.equal(typeof zh.prompt.template, 'string')
-  assert.ok(zh.prompt.template.includes('{start}'))
-  assert.ok(en.prompt.template.includes('{end}'))
+  assert.ok(zh.prompt.template.includes('{start}'), '中文模板要有起点占位符')
+  assert.equal(zh.prompt.template.includes('{end}'), false, '模板不该再有终点占位符')
+  assert.ok(en.prompt.template.includes('{start}'), '英文模板要有起点占位符')
 
   const client = await readFile(new URL('../lib/client.js', import.meta.url), 'utf8')
   const marker = 'var FALLBACK_UI = {'

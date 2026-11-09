@@ -85,7 +85,7 @@ A pack only needs the parts you want to change; everything else follows English:
   "schema": 1,
   "name": "日本語",
   "prompt": {
-    "template": "要約する範囲：ユーザーメッセージ「{start}」から「{end}」まで。\n\n次の構成で日本語の要約を書いてください：\n\n## この区間の要約\n- 目的：\n- 成果物：\n- 現在の状態："
+    "template": "次のメッセージから末尾までを要約します：「{start}」\n\n次の構成で日本語の要約を書いてください：\n\n## この区間の要約\n- 目的：\n- 成果物：\n- 現在の状態："
   },
   "ui": {
     "compress": "圧縮",
@@ -101,7 +101,7 @@ Three rules:
 - **`ui` is one string per place on screen.** Either section may be partial: missing keys fall back to English one by one, so a half-finished translation is still usable.
 - **The pack decides which language the summary is written in.** Nothing else says it, so state it in the template — e.g. “Write the summary in English” or “日本語で書いてください”.
 
-Placeholders: `{start}` and `{end}` in the template are the first and last user messages of the chosen span (truncated to 160 characters), and `anchorStart` / `anchorEnd` supply the wording used when the span has no real user message.
+Placeholder: `{start}` is the first user message of the chosen span, cut to 128 characters plus an ellipsis. There is no end placeholder — the plugin stops sending messages at the end of the span, so the model cannot see anything after it. `anchorStart` supplies the wording used when the span contains no real user message.
 
 The full field list is in [lib/langs/en.json](lib/langs/en.json). If you finish a translation and want to share it, open a PR that adds it to `lib/langs/`.
 
