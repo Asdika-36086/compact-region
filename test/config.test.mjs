@@ -16,7 +16,7 @@ try {
   {
     const config = await readConfig()
     assert.equal(config.source, 'default')
-    assert.equal(config.value.language, 'English')
+    assert.equal(config.value.language, 'en')
     assert.equal(config.problem, undefined)
     console.log('ok   没有配置文件时回落到默认值')
   }
@@ -29,7 +29,7 @@ try {
     assert.equal(config.value.language, '中文')
 
     const fallback = JSON.parse(await readFile(join(home, 'compact-region', 'config.default.json'), 'utf8'))
-    assert.equal(fallback.language, 'English')
+    assert.equal(fallback.language, 'en')
 
     const current = JSON.parse(await readFile(join(home, 'compact-region', 'config.json'), 'utf8'))
     assert.equal(current.language, '中文')
@@ -41,7 +41,7 @@ try {
     await writeFile(join(home, 'compact-region', 'config.json'), '{ 这不是 JSON', 'utf8')
     const config = await readConfig()
     assert.equal(config.source, 'default')
-    assert.equal(config.value.language, 'English')
+    assert.equal(config.value.language, 'en')
     assert.equal(typeof config.problem, 'string')
     console.log('ok   当前配置损坏时回退默认值并报告原因')
   }
