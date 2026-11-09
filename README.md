@@ -68,44 +68,29 @@ Open any conversation and hover a normal turn; a **⤵ Compress** button should 
 
 ## Language
 
-Everything the plugin says comes from a language pack. Two ship with it — English and 中文 — and you choose one on the **compact-region** card under Plugins. That choice decides both **the language the summary is written in** and **the words on the buttons and dialogs**.
+Every string the plugin shows and the instruction it sends to the model come from a language pack. Both are replaceable, and you switch packs on the **compact-region** card under Plugins. Two ship: English and 中文.
 
-To add a language, drop a JSON file into:
-
-```
-<DSH home>/compact-region/langs/
-```
-
-The file name without `.json` is the language's id, e.g. `日本語.json`. The card rescans the folder every time it opens, so no restart is needed. A file with the same id as a shipped pack overrides it — if you dislike the bundled Chinese wording, drop in your own `zh.json`.
-
-A pack only needs the parts you want to change; everything else follows English:
+To add one, put a JSON file in `<DSH home>/compact-region/langs/`. The file name without `.json` is the id shown in the picker; a file whose id matches a shipped pack overrides it. The card rescans the folder each time it opens, so no restart is needed.
 
 ```json
 {
   "schema": 1,
-  "name": "日本語",
+  "name": "shown in the picker",
   "prompt": {
-    "template": "要約する範囲：「{start}」から、あなたに見えている最後の内容まで。\n\n次の構成で日本語の要約を書いてください：\n\n## この区間の要約\n- 目的：\n- 成果物：\n- 現在の状態："
+    "template": "the instruction sent to the model; {start} is the first 128 characters of the span"
   },
   "ui": {
-    "compress": "圧縮",
-    "cancel": "キャンセル",
-    "apply": "適用"
+    "compress": "text of the button",
+    "cancel": "text of the cancel button"
   }
 }
 ```
 
-Three rules:
-
-- **`prompt.template` is one free-form block**, sent to the model verbatim after the conversation. Lay it out however you like — headings, bullets, order, length. Newlines are `\n` inside the JSON string.
-- **`ui` is one string per place on screen.** Either section may be partial: missing keys fall back to English one by one, so a half-finished translation is still usable.
-- **The pack decides which language the summary is written in.** Nothing else says it, so state it in the template — e.g. “Write the summary in English” or “日本語で書いてください”.
-
-Placeholder: `{start}` is the first 128 characters of whatever the span begins with — a user message, a checkpoint card, a tool result — plus an ellipsis when cut. There is no end placeholder: the plugin stops sending messages at the end of the span, so the model cannot see anything after it.
-
-The full field list is in [lib/langs/en.json](lib/langs/en.json). If you finish a translation and want to share it, open a PR that adds it to `lib/langs/`.
-
-The settings card's own row (its title and the Reset button) is **not** part of a language pack: it follows the DSH interface language, so someone running DSH in English can always find the setting.
+- Both sections may be partial: missing keys fall back to English one at a time, so a half-finished pack is still usable.
+- The pack decides which language the summary is written in. Nothing else says it, so state it in the template.
+- The full field list, with every UI string, is [lib/langs/en.json](lib/langs/en.json). Newlines inside the template are `
+`.
+- The settings card's own row (its title and the Reset button) is not part of a pack: it follows the DSH interface language, so someone running DSH in English can always find the setting.
 
 ## Data and caveats
 
