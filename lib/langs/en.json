@@ -3,7 +3,7 @@
   "name": "English",
   "prompt": {
     "anchorStart": "(start of the span)",
-    "template": "The span to condense starts at “{start}” and runs to the last thing you can see.\n\nWrite one summary for later continuation, in the structure below:\n\n## Summary of this stretch\n- Goal: what this stretch of work is doing\n- Artifacts: file paths, commands, config keys, quoted verbatim\n- Attempts and conclusions: each attempt → feedback → why it was rejected → the final choice\n- Current state:\n- New caveats:\n\nRequirements:\n- Write the summary in English, even when the conversation is in another language.\n- Keep file paths, commands, error strings, identifiers, numbers and function signatures verbatim.\n- Record conclusions and reasons, not the process.\n- Write the record directly; do not mention these requirements."
+    "template": "The span to summarize starts at “{start}” and runs to the last thing you can see.\n\nWrite one summary for later continuation, in the structure below:\n\n## Summary of this stretch\n- Goal: what this stretch of work is doing\n- Artifacts: file paths, commands, config keys, quoted verbatim\n- Attempts and conclusions: each attempt → feedback → why it was rejected → the final choice\n- Current state:\n- New caveats:\n\nRequirements:\n- Write the summary in English, even when the conversation is in another language.\n- Keep file paths, commands, error strings, identifiers, numbers and function signatures verbatim.\n- Record conclusions and reasons, not the process.\n- Write the record directly; do not mention these requirements."
   },
   "ui": {
     "loading": "Loading…",
