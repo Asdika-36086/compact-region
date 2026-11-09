@@ -100,6 +100,7 @@ A pack only needs the parts you want to change; everything else follows English:
 Two rules:
 
 - **`prompt` is the instruction sent to the model; `ui` is the text on screen.** Either may be partial: missing fields fall back to English one by one, so a half-finished translation is still usable.
+- **The pack decides which language the summary is written in.** Each one names its own language in `prompt.requirements`, so summarizing a Chinese conversation with the English pack still produces an English summary. Say the language explicitly there if you want it to differ from the conversation.
 - `{start}`, `{end}`, `{n}`, `{from}`, `{to}`, `{dir}` and `{message}` are placeholders — keep them verbatim.
 
 The full field list is in [lib/langs/en.json](lib/langs/en.json). If you finish a translation and want to share it, open a PR that adds it to `lib/langs/`.

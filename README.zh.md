@@ -100,6 +100,7 @@ dsh plugin install https://github.com/Asdika-36086/compact-region
 两条规则：
 
 - **`prompt` 是发给模型的摘要指令，`ui` 是界面上的字。** 两者都可以只写一部分，缺的字段逐条回落到英文，所以翻到一半也能用。
+- **包同时决定摘要用哪种语言写。** 每个包在 `prompt.requirements` 里点明自己的语言，所以用英文包总结中文对话，产出的也是英文摘要。想让摘要语言和对话语言不同，就在那一行里明说。
 - `{start}`、`{end}`、`{n}`、`{from}`、`{to}`、`{dir}`、`{message}` 是占位符，翻译时原样保留。
 
 完整字段见 [lib/langs/en.json](lib/langs/en.json)。翻好了愿意分享，把它提成 PR 放进 `lib/langs/` 就是内置语言包。

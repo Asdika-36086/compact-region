@@ -15,7 +15,7 @@
     "notes": "- New caveats:",
     "requirementsHeading": "Requirements:",
     "requirements": [
-      "Use the same language as the conversation.",
+      "Write the summary in English, even when the conversation is in another language.",
       "Keep file paths, commands, error strings, identifiers, numbers and function signatures verbatim.",
       "Record conclusions and reasons, not the process.",
       "Write the record directly; do not mention these requirements."
