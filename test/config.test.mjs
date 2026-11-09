@@ -68,3 +68,17 @@ try {
   delete process.env.DSH_HOME
   await rm(home, { recursive: true, force: true })
 }
+
+// 面板文案的两种语言必须逐条对齐：漏一条翻译，界面语言切过去就会露出键名。
+{
+  const client = await readFile(new URL('../lib/client.js', import.meta.url), 'utf8')
+  const counts = new Map()
+  for (const match of client.matchAll(/'(card|error)\.[a-zA-Z0-9]+':/g)) {
+    const key = match[0].slice(1, -2)
+    counts.set(key, (counts.get(key) ?? 0) + 1)
+  }
+  assert.ok(counts.size >= 10, '应当认得出面板文案的键')
+  const missing = [...counts.entries()].filter(([, count]) => count !== 2).map(([key]) => key)
+  assert.deepEqual(missing, [], `这些键没有同时出现在中英两份里：${missing.join(', ')}`)
+  console.log(`ok   面板文案中英各一份，共 ${counts.size} 条`)
+}
