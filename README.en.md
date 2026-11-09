@@ -68,29 +68,11 @@ Open any conversation and hover a normal turn; a **⤵ Compress** button should 
 
 ## Language
 
-Every string the plugin shows and the instruction it sends to the model come from a language pack. Both are replaceable, and you switch packs on the **compact-region** card under Plugins. Two ship: English and 中文.
+Every string the plugin shows, and the instruction it sends to the model, comes from a language pack. Chinese and English ship with it; switch on the **compact-region** card under Plugins.
 
-To add one, put a JSON file in `<DSH home>/compact-region/langs/`. The file name without `.json` is the id shown in the picker; a file whose id matches a shipped pack overrides it. The card rescans the folder each time it opens, so no restart is needed.
+To add one, put a JSON file in `<DSH home>/compact-region/langs/`. The file name without `.json` is the language's id and the name shown in the picker.
 
-```json
-{
-  "schema": 1,
-  "name": "shown in the picker",
-  "prompt": {
-    "template": "the instruction sent to the model; {start} is the first 128 characters of the span"
-  },
-  "ui": {
-    "compress": "text of the button",
-    "cancel": "text of the cancel button"
-  }
-}
-```
-
-- Both sections may be partial: missing keys fall back to English one at a time, so a half-finished pack is still usable.
-- The pack decides which language the summary is written in. Nothing else says it, so state it in the template.
-- The full field list, with every UI string, is [lib/langs/en.json](lib/langs/en.json). Newlines inside the template are `
-`.
-- The settings card's own row (its title and the Reset button) is not part of a pack: it follows the DSH interface language, so someone running DSH in English can always find the setting.
+Copy the shape from [lib/langs/en.json](lib/langs/en.json): `prompt` is the instruction sent to the model, `ui` is the text on screen. Write only what you want to change; anything missing falls back to English. A file that does not fit the shape is marked unavailable in the picker, with the reason.
 
 ## Data and caveats
 
