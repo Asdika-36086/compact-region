@@ -56,6 +56,7 @@
     "lib/index.js",
     "lib/stats.js",
     "lib/client.js",
+    "lib/langs/*.json",
     "cordis.patch.yml",
     "locale/en.json",
     "locale/zh.json",
