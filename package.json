@@ -1,6 +1,6 @@
 {
   "name": "compact-region",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Partial compaction for DSH: condense a chosen region of the conversation into one editable checkpoint.",
   "author": "Asdika-36086",
   "icon": "icon.svg",
