@@ -25,7 +25,7 @@
     "node": ">=22.19.0"
   },
   "scripts": {
-    "test": "node test/stats.test.mjs && node test/archive.test.mjs && node test/deep-nest.test.mjs && node test/config.test.mjs"
+    "test": "node test/stats.test.mjs && node test/archive.test.mjs && node test/deep-nest.test.mjs && node test/config.test.mjs && node test/fonts.test.mjs"
   },
   "type": "module",
   "main": "lib/index.js",
